@@ -1,0 +1,74 @@
+package GenericTree;
+
+import java.util.*;
+
+import GenericTree.PrePostTreeTraversal.TreeNode;
+
+public class LevelOrderTraversal {
+
+	public static class TreeNode
+	{
+		int data;
+		ArrayList<TreeNode> children = new ArrayList<>();
+	}
+	
+	public static TreeNode construct(int a[])
+	{
+		Stack<TreeNode> st = new Stack<>();
+		TreeNode root = null;
+		
+		for(int i = 0; i < a.length; i++)
+		{
+			if(a[i] == -1)
+				st.pop();
+			
+			else
+			{
+				TreeNode child = new TreeNode();
+				child.data = a[i];
+				
+				if(!st.isEmpty())
+				{
+					st.peek().children.add(child);
+				}
+				else
+					root = child;
+				
+				st.push(child);
+			}
+		}
+		return root;
+	}
+	
+	public static void levelOrder(TreeNode node)
+	{
+		Queue<TreeNode> que = new LinkedList<>();
+		
+		que.add(node);
+		
+		while(!que.isEmpty())
+		{
+			TreeNode out = que.remove();
+			System.out.print(out.data + " ");
+			
+			for(TreeNode child : out.children)
+				que.add(child);
+		}
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int a[] = new int[n];
+		
+		for(int i = 0; i < n; i++)
+			a[i] = sc.nextInt();
+		
+		TreeNode root = construct(a);
+		
+		levelOrder(root);
+	}
+
+}
